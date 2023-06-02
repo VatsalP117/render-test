@@ -13,3 +13,4 @@ export default async function handler(req, res) {
     res.status(400).json({ message: "Method not allowed" });
   }
 }
+export const runtime = "edge";

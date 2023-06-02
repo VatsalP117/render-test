@@ -7,23 +7,21 @@ import { useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import GoogleButton from "react-google-button";
+import LoadUI from "../components/skeleton";
 export default function LoginPage() {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, error } = useSession();
 
   useEffect(() => {
     if (session) {
       router.push("/dashboard");
+    } else if (error) {
+      router.push("/");
     }
-  }, [session]);
-  if (session) {
-    return (
-      <div className="h-screen bg-white flex flex-row items-center justify-center px-7">
-        <h1 className="text-3xl md:text-4xl">
-          User already logged in. Redirecting to dashboard...
-        </h1>
-      </div>
-    );
+  }, [session, error]);
+
+  if (session || error) {
+    return <LoadUI />;
   } else
     return (
       <div className="h-screen bg-slate-300 w-full flex flex-col items-center justify-center">
